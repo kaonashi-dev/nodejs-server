@@ -3,11 +3,15 @@ import { fileURLToPath } from 'url';
 
 import express from 'express';
 
+import userRouter from '../routes/user.routes';
+
 export default class Server {
 
    constructor() {
       this.port = process.env.PORT;
       this.app = express();
+
+      this.pathUsers = '/api/user';
 
       // Middlewares
       this.middlewares();
@@ -25,9 +29,7 @@ export default class Server {
    }
 
    routes() {
-      this.app.get('/', (req, res) => {
-         res.send('Hello');
-      });
+      this.app.use(this.pathUsers, userRouter);
    }
 
    listen() {
