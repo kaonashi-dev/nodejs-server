@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 
 import express from 'express';
 
+import { DatabseConnection } from '../database/config';
 import userRouter from '../routes/user.routes';
 
 export default class Server {
@@ -13,11 +14,18 @@ export default class Server {
 
       this.pathUsers = '/api/user';
 
+      // Database connection
+      this.dbConnect();
+
       // Middlewares
       this.middlewares();
 
       // Routes app
       this.routes();
+   }
+
+   async dbConnect() {
+      await DatabseConnection();
    }
 
    middlewares() {
