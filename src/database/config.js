@@ -4,7 +4,7 @@ const DatabseConnection = async () => {
 
    try {
       
-      await mongoose.createConnection(process.env.MONGODB_URI).asPromise();
+      await mongoose.connect(process.env.MONGODB_URI);
 
       console.log('--- database online ---');
 
