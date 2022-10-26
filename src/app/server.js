@@ -2,6 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import express from 'express';
+import cors from 'cors';
 
 import { DatabseConnection } from '../database/config';
 import userRouter from '../routes/user.routes';
@@ -32,6 +33,8 @@ export default class Server {
 
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = path.dirname(__filename);
+      
+      this.app.use(cors());
 
       this.app.use(express.static(path.join(__dirname, 'public')));
 

@@ -25,14 +25,6 @@ const userPost = async (req = request, res = response) => {
       rol
    });
 
-   const emailExists = await User.findOne();
-   if (emailExists) {
-      res.status(400).json({
-         message: 'Este correo ya está registrado',
-         data: user
-      });
-   }
-
    const salt = bcrypt.genSaltSync();
    user.password = bcrypt.hashSync(password, salt);
 
@@ -44,24 +36,32 @@ const userPost = async (req = request, res = response) => {
       console.log(err);
    })
 
-   res.status(201).json({
+   return res.status(201).json({
       message: 'POST API',
       data: user
    });
 }
 
-const userPut = (req = request, res = response) => {
+const userPut = async (req = request, res = response) => {
 
-   const id = req.params.id;
+   const { id } = req.params;
+   const { _id, password, google, email, ...userData } = req.body;
 
-   res.json({
+   if (password) {
+      const salt = bcrypt.genSaltSync();
+      userData.password = bcrypt.hashSync(password, salt);
+   }
+
+   const userUpdate = await User.findByIdAndUpdate(id, userData);
+
+   return res.json({
       message: 'PUT API',
-      data: id
+      data: userUpdate
    });
 }
 
 const userPatch = (req = request, res = response) => {
-   res.json({
+   return res.json({
       message: 'PATCH API'
    });
 }
