@@ -57,7 +57,7 @@ const userPut = async (req = request, res = response) => {
       userData.password = bcrypt.hashSync(password, salt);
    }
 
-   const userUpdate = await User.findByIdAndUpdate(id, userData);
+   const userUpdate = await User.findByIdAndUpdate(id, userData, { new: true });
 
    return res.json({
       message: 'PUT API',
