@@ -7,6 +7,7 @@ import {
    userGet,
    userPost,
    userPut,
+   userDelete,
    userPatch
 } from '../controllers/user.controller';
 
@@ -25,10 +26,14 @@ router.post('/', [
 ], userPost);
 
 router.put('/:id', [
-   // check('id', 'No es un ID valido').isMongoId(),
    check('id').custom(existsUserId),
    inputValidator
 ], userPut);
+
+router.delete('/:id', [
+   check('id').custom(existsUserId),
+   inputValidator
+], userDelete);
 
 router.patch('/', userPatch);
 

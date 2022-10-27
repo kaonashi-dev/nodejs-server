@@ -65,6 +65,20 @@ const userPut = async (req = request, res = response) => {
    });
 }
 
+const userDelete = async (req = request, res = response) => {
+
+   const { id } = req.params;
+
+   /// Borrar de la db
+   // const user = await User.findByIdAndDelete(id);
+
+   const user = await User.findByIdAndUpdate(id, { status: false });
+
+   return res.json({
+      data: user
+   });
+}
+
 const userPatch = (req = request, res = response) => {
    return res.json({
       message: 'PATCH API'
@@ -75,5 +89,6 @@ export {
    userGet,
    userPost,
    userPut,
+   userDelete,
    userPatch
 }
