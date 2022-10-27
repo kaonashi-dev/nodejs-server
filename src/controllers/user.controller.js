@@ -3,15 +3,20 @@ import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
 
-const userGet = (req = request, res = response) => {
+const userGet = async (req = request, res = response) => {
 
-   const { page = '1', limit = '10' } = req.query;
+   const { start = '1', limit = '5' } = req.query;
+
+   const [users, total] = await Promise.all([
+      User.find({ status: true })
+         .skip(Number(start))
+         .limit(Number(limit)),
+      User.countDocuments({ status: true })
+   ]);
 
    res.json({
-      message: 'GET API',
-      data: {
-         page, limit
-      }
+      total,
+      data: users
    });
 }
 
