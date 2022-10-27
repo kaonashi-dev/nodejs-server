@@ -72,10 +72,11 @@ const userDelete = async (req = request, res = response) => {
    /// Borrar de la db
    // const user = await User.findByIdAndDelete(id);
 
-   const user = await User.findByIdAndUpdate(id, { status: false });
+   const user = await User.findByIdAndUpdate(id, { status: false }, { new: true });
 
    return res.json({
-      data: user
+      data: user,
+      uid: req.uid
    });
 }
 

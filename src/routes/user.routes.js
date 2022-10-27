@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { inputValidator } from '../middlewares/inputs-validator';
+import { validateJWT, isAdminRole, inputValidator, includeRole } from '../middlewares';
 import { emailExists, isValidRole, existsUserId } from '../helpers/db-validators';
 import {
    userGet,
@@ -31,6 +31,9 @@ router.put('/:id', [
 ], userPut);
 
 router.delete('/:id', [
+   validateJWT,
+   // isAdminRole,
+   includeRole('ADMIN', 'EDITOR'),
    check('id').custom(existsUserId),
    inputValidator
 ], userDelete);

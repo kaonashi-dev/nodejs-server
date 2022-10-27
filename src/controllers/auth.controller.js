@@ -6,12 +6,11 @@ import { createLoginJWT } from '../helpers/jwt-generator';
 
 const login = async (req = request, res = response) => {
 
+   console.log(req.headers);
+
    const { email, password } = req.body;
 
    try {
-
-      console.log('params');
-      console.log(email, password);
 
       // Verificar el correo y que el usuario esté activo
       const user = await User.findOne({ email, status: true }).exec();
