@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import { DatabseConnection } from '../database/config';
 import userRouter from '../routes/user.routes';
+import authRouter from '../routes/auth.routes';
 
 export default class Server {
 
@@ -13,6 +14,7 @@ export default class Server {
       this.port = process.env.PORT;
       this.app = express();
 
+      this.pathAuth = '/api/auth';
       this.pathUsers = '/api/user';
 
       // Database connection
@@ -43,6 +45,7 @@ export default class Server {
 
    routes() {
       this.app.use(this.pathUsers, userRouter);
+      this.app.use(this.pathAuth, authRouter);
    }
 
    listen() {
