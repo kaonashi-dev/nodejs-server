@@ -3,10 +3,9 @@ import bcryptjs from 'bcryptjs';
 
 import User from '../models/user';
 import { createLoginJWT } from '../helpers/jwt-generator';
+import { googleVerify } from '../helpers/google-verify';
 
 const login = async (req = request, res = response) => {
-
-   console.log(req.headers);
 
    const { email, password } = req.body;
 
@@ -33,7 +32,7 @@ const login = async (req = request, res = response) => {
       // Crear el token
       const token = await createLoginJWT(user.id);
 
-      return res.status(201).json({
+      return res.status(200).json({
          message: 'ok',
          data: {
             user,
@@ -43,7 +42,56 @@ const login = async (req = request, res = response) => {
 
    } catch (error) {
       console.log('Login error =>', error);
-      return res.status(400).json({
+      return res.status(500).json({
+         message: 'Ocurrio un error',
+         data: {}
+      });
+   }
+
+}
+
+const loginGoogle = async (req = request, res = response) => {
+
+   try {
+      const { id_token } = req.body;
+
+      const { name, email, image } = await googleVerify(id_token);
+
+      let user = await User.findOne({ email }).exec();
+
+      if (!user) {
+         user = new User({
+            name,
+            email,
+            password: '#$#',
+            image,
+            rol: 'USER',
+            google: true
+         });
+         await user.save();
+      }
+
+      if (!user.status) {
+         return res.status(401).json({
+            message: 'Este usuario está bloqueado',
+            data: {}
+         });
+      }
+
+      // Crear el token
+      const token = await createLoginJWT(user.id);
+
+      return res.status(200).json({
+         message: 'ok',
+         data: {
+            user,
+            token
+         }
+      });
+
+   } catch (error) {
+      console.log('Login google error =>', error);
+      return res.status(500).json({
          message: 'Ocurrio un error',
          data: {}
       });
@@ -52,5 +100,6 @@ const login = async (req = request, res = response) => {
 }
 
 export {
-   login
+   login,
+   loginGoogle
 }
