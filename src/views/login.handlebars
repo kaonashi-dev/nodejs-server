@@ -1,0 +1,25 @@
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<h3>Login Google</h3>
+<hr />
+
+<div
+  id="g_id_onload"
+  data-client_id="{{googleClientId}}"
+  data-callback="handleCredentialResponse"
+>
+</div>
+<div
+  class="g_id_signin"
+  data-type="standard"
+  data-size="large"
+  data-theme="outline"
+  data-text="sign_in_with"
+  data-shape="rectangular"
+  data-logo_alignment="left"
+>
+</div>
+
+<script>
+  function handleCredentialResponse(response) { console.log('TOKEN ->');
+  console.log(response.credential); }
+</script>
