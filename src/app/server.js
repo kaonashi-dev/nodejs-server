@@ -6,9 +6,12 @@ import cors from 'cors';
 import { engine } from 'express-handlebars';
 
 import { DatabseConnection } from '../database/config';
-import webRouter from '../routes/web.routes';
-import authRouter from '../routes/auth.routes';
-import userRouter from '../routes/user.routes';
+import {
+   webRouter,
+   authRouter,
+   userRouter,
+   categoryRouter,
+} from '../routes/';
 
 export default class Server {
 
@@ -16,9 +19,12 @@ export default class Server {
       this.port = process.env.PORT;
       this.app = express();
 
-      this.pathWeb = '/';
-      this.pathAuth = '/api/auth';
-      this.pathUsers = '/api/user';
+      this.paths = {
+         web: '/',
+         auth: '/api/auth',
+         users: '/api/user',
+         categories: '/api/category',
+      };
 
       // Database connection
       this.dbConnect();
@@ -51,9 +57,10 @@ export default class Server {
    }
 
    routes() {
-      this.app.use(this.pathWeb, webRouter);
-      this.app.use(this.pathUsers, userRouter);
-      this.app.use(this.pathAuth, authRouter);
+      this.app.use(this.paths.web, webRouter);
+      this.app.use(this.paths.web, authRouter);
+      this.app.use(this.paths.users, userRouter);
+      this.app.use(this.paths.categories, categoryRouter);
    }
 
    listen() {
