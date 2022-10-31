@@ -58,7 +58,7 @@ export default class Server {
 
    routes() {
       this.app.use(this.paths.web, webRouter);
-      this.app.use(this.paths.web, authRouter);
+      this.app.use(this.paths.auth, authRouter);
       this.app.use(this.paths.users, userRouter);
       this.app.use(this.paths.categories, categoryRouter);
    }
