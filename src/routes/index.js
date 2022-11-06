@@ -1,11 +1,13 @@
-import webRouter from './web.routes';
 import authRouter from './auth.routes';
-import userRouter from './user.routes';
 import categoryRouter from './category.routes';
+import productRouter from './product.routes';
+import userRouter from './user.routes';
+import webRouter from './web.routes';
 
 export {
-   webRouter,
    authRouter,
-   userRouter,
    categoryRouter,
+   productRouter,
+   userRouter,
+   webRouter,
 }

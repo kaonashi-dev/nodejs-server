@@ -11,6 +11,7 @@ import {
    authRouter,
    userRouter,
    categoryRouter,
+   productRouter,
 } from '../routes/';
 
 export default class Server {
@@ -24,6 +25,7 @@ export default class Server {
          auth: '/api/auth',
          users: '/api/user',
          categories: '/api/category',
+         products: '/api/product',
       };
 
       // Database connection
@@ -61,6 +63,7 @@ export default class Server {
       this.app.use(this.paths.auth, authRouter);
       this.app.use(this.paths.users, userRouter);
       this.app.use(this.paths.categories, categoryRouter);
+      this.app.use(this.paths.products, productRouter);
    }
 
    listen() {

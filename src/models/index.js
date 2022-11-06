@@ -1,9 +1,11 @@
-import User from './user';
-import Role from './role';
 import Category from './category';
+import Product from './product';
+import Role from './role';
+import User from './user';
 
 export {
-   User,
-   Role,
    Category,
+   Product,
+   Role,
+   User,
 }

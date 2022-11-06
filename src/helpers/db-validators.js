@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import Role from '../models/role';
-import { User, Category } from '../models/';
+import { User, Category, Product } from '../models/';
 
 const isValidRole = async (requestData = '') => {
    const validatedRol = await Role.findOne({ rol: requestData }).exec();
@@ -32,7 +32,7 @@ const existsUserId = async (userId) => {
 const existsCategoryId = async (categoryId) => {
 
    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-      throw new Error(`El id ${categoryId} no es válido`);
+      throw new Error(`El id de categoria no es válido`);
    }
 
    const exists = await Category.findById(categoryId).exec();
@@ -41,9 +41,22 @@ const existsCategoryId = async (categoryId) => {
    }
 }
 
+const existsProductId = async (productId) => {
+
+   if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw new Error(`El id ${productId} no es válido`);
+   }
+
+   const exists = await Product.findById(productId).exec();
+   if (!exists) {
+      throw new Error(`No existe un producto con id: ${productId}`);
+   }
+}
+
 export {
-   isValidRole,
    emailExists,
+   existsCategoryId,
+   existsProductId,
    existsUserId,
-   existsCategoryId
+   isValidRole,
 }

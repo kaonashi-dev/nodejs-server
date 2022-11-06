@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 
 import { existsCategoryId } from '../helpers/db-validators';
-import { validateJWT, inputValidator, includeRole } from '../middlewares';
+import { validateJWT, inputValidator, includeRole, isAdminRole } from '../middlewares';
 import {
    getAll,
    getById,
@@ -41,7 +41,7 @@ router.put('/:id', [
 // Borrar una categoria
 router.delete('/:id', [
    validateJWT,
-   includeRole('ADMIN', 'EDITOR'),
+   isAdminRole,
    check('id').custom(existsCategoryId),
    inputValidator
 ], remove);
