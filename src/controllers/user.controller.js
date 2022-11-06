@@ -80,16 +80,9 @@ const userDelete = async (req = request, res = response) => {
    });
 }
 
-const userPatch = (req = request, res = response) => {
-   return res.json({
-      message: 'PATCH API'
-   });
-}
-
 export {
    userGet,
    userPost,
    userPut,
    userDelete,
-   userPatch
 }

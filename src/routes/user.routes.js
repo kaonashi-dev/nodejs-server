@@ -8,7 +8,6 @@ import {
    userPost,
    userPut,
    userDelete,
-   userPatch
 } from '../controllers/user.controller';
 
 const router = Router();
@@ -37,7 +36,5 @@ router.delete('/:id', [
    check('id').custom(existsUserId),
    inputValidator
 ], userDelete);
-
-router.patch('/', userPatch);
 
 export default router;
