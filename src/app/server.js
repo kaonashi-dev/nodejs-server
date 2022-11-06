@@ -7,11 +7,12 @@ import { engine } from 'express-handlebars';
 
 import { DatabseConnection } from '../database/config';
 import {
-   webRouter,
    authRouter,
-   userRouter,
    categoryRouter,
    productRouter,
+   userRouter,
+   webRouter,
+   searchRouter
 } from '../routes/';
 
 export default class Server {
@@ -21,11 +22,12 @@ export default class Server {
       this.app = express();
 
       this.paths = {
-         web: '/',
          auth: '/api/auth',
-         users: '/api/user',
          categories: '/api/category',
          products: '/api/product',
+         search: '/api/search',
+         users: '/api/user',
+         web: '/',
       };
 
       // Database connection
@@ -59,11 +61,12 @@ export default class Server {
    }
 
    routes() {
-      this.app.use(this.paths.web, webRouter);
       this.app.use(this.paths.auth, authRouter);
-      this.app.use(this.paths.users, userRouter);
       this.app.use(this.paths.categories, categoryRouter);
       this.app.use(this.paths.products, productRouter);
+      this.app.use(this.paths.search, searchRouter);
+      this.app.use(this.paths.users, userRouter);
+      this.app.use(this.paths.web, webRouter);
    }
 
    listen() {

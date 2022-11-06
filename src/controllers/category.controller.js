@@ -1,4 +1,5 @@
 import { request, response } from 'express';
+import { Types } from 'mongoose';
 
 import Category from '../models/category';
 
@@ -102,10 +103,39 @@ const remove = async (req = request, res = response) => {
    });
 }
 
+const categorySearch = async (term = '', res = response) => {
+
+   if (Types.ObjectId.isValid(term)) {
+      const category = await Category.findById(term).exec();
+      return res.status(200).json({
+         message: '',
+         data: {
+            results: (category) ? [category] : [],
+         }
+      });
+   }
+
+   const regex = new RegExp(term, 'i');
+
+   const categories = await Category.find({
+      $or: [
+         { name: regex },
+      ],
+      $and: [{ status: true }],
+   }).exec();
+   return res.status(200).json({
+      message: '',
+      data: {
+         results: categories,
+      }
+   });
+}
+
 export {
+   categorySearch,
+   create,
    getAll,
    getById,
-   create,
-   update,
-   remove
+   remove,
+   update
 }

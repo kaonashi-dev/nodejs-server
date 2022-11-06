@@ -1,4 +1,5 @@
 import { request, response } from 'express';
+import { Types } from 'mongoose';
 
 import { Product } from '../models/';
 
@@ -109,10 +110,40 @@ const remove = async (req = request, res = response) => {
    });
 }
 
+const productSearch = async (term = '', res = response) => {
+
+   if (Types.ObjectId.isValid(term)) {
+      const product = await Product.findById(term)
+         .populate('user', 'name')
+         .populate('category', 'name')
+         .exec();
+      return res.status(200).json({
+         message: '',
+         data: {
+            results: (product) ? [product] : [],
+         }
+      });
+   }
+
+   const regex = new RegExp(term, 'i');
+
+   const products = await Product.find({ name: regex, status: true })
+      .populate('user', 'name')
+      .populate('category', 'name')
+      .exec();
+   return res.status(200).json({
+      message: '',
+      data: {
+         results: products,
+      }
+   });
+}
+
 export {
+   create,
    getAll,
    getById,
-   create,
-   update,
-   remove
+   productSearch,
+   remove,
+   update
 }

@@ -1,4 +1,5 @@
 import { request, response } from 'express';
+import { Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
@@ -80,9 +81,39 @@ const userDelete = async (req = request, res = response) => {
    });
 }
 
+const userSearch = async (term = '', res = response) => {
+
+   if (Types.ObjectId.isValid(term)) {
+      const user = await User.findById(term).exec();
+      return res.status(200).json({
+         message: '',
+         data: {
+            results: (user) ? [user] : [],
+         }
+      });
+   }
+
+   const regex = new RegExp(term, 'i');
+
+   const users = await User.find({
+      $or: [
+         { name: regex },
+         { email: regex },
+      ],
+      $and: [{ status: true }],
+   }).exec();
+   return res.status(200).json({
+      message: '',
+      data: {
+         results: users,
+      }
+   });
+}
+
 export {
    userGet,
    userPost,
    userPut,
    userDelete,
+   userSearch
 }
