@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import { engine } from 'express-handlebars';
+import fileUpload from 'express-fileupload';
 
 import { DatabseConnection } from '../database/config';
 import {
@@ -56,6 +57,11 @@ export default class Server {
       this.app.use(express.json());
 
       this.app.use(express.static(path.join(__dirname, 'public')));
+
+      this.app.use(fileUpload({
+         useTempFiles: true,
+         tempFileDir: '/tmp/'
+      }));
 
       this.app.engine('handlebars', engine());
       this.app.set('view engine', 'handlebars');
