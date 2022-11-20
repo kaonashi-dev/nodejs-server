@@ -11,6 +11,7 @@ import {
    categoryRouter,
    productRouter,
    userRouter,
+   uploadsRouter,
    webRouter,
    searchRouter
 } from '../routes/';
@@ -27,6 +28,7 @@ export default class Server {
          products: '/api/product',
          search: '/api/search',
          users: '/api/user',
+         uploads: '/api/uploads',
          web: '/',
       };
 
@@ -66,6 +68,7 @@ export default class Server {
       this.app.use(this.paths.products, productRouter);
       this.app.use(this.paths.search, searchRouter);
       this.app.use(this.paths.users, userRouter);
+      this.app.use(this.paths.uploads, uploadsRouter);
       this.app.use(this.paths.web, webRouter);
    }
 
