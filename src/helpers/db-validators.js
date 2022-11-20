@@ -53,10 +53,20 @@ const existsProductId = async (productId) => {
    }
 }
 
+const isValidCollection = (collection = '', collections = []) => {
+   const include = collections.includes(collection);
+   if (!include) {
+      throw new Error(`La colección no es valida`);
+   }
+
+   return true;
+}
+
 export {
    emailExists,
    existsCategoryId,
    existsProductId,
    existsUserId,
    isValidRole,
+   isValidCollection
 }

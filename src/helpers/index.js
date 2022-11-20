@@ -4,7 +4,7 @@ import googleVerify from './google-verify';
 import loadFile from './load-file';
 
 export default {
-   ...dbValidators,
+   dbValidators,
    ...jwtGenerator,
    ...googleVerify,
    ...loadFile

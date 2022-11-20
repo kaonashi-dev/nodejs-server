@@ -6,7 +6,7 @@ import User from '../models/user';
 
 const userGet = async (req = request, res = response) => {
 
-   const { start = '1', limit = '5' } = req.query;
+   const { start = '0', limit = '5' } = req.query;
 
    const [users, total] = await Promise.all([
       User.find({ status: true })
