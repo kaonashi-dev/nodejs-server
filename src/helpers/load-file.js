@@ -43,7 +43,14 @@ const deleteImage = (pathImage) => {
    }
 }
 
+const existsImage = (pathImage) => {
+   const pathImageLocal = path.join(__dirname, '../uploads/', pathImage);
+   if (fs.existsSync(pathImageLocal)) return pathImageLocal;
+   else return path.join(__dirname, '../uploads/no-image.jpg');
+}
+
 export {
    loadFile,
-   deleteImage
+   deleteImage,
+   existsImage
 }

@@ -1,7 +1,7 @@
 import { request, response } from 'express';
 
 import { User, Product } from '../models/';
-import { loadFile, deleteImage } from '../helpers/load-file';
+import { loadFile, deleteImage, existsImage } from '../helpers/load-file';
 
 const uploadFile = async (req = request, res = response) => {
 
@@ -47,7 +47,7 @@ const updateImage = async (req = request, res = response) => {
             data: {}
          });
    }
-   console.log(model);
+
    try {
       if (model.image) deleteImage('users/' + model.image);
    } catch (error) {
@@ -68,7 +68,50 @@ const updateImage = async (req = request, res = response) => {
 
 }
 
+const getImage = async (req = request, res = response) => {
+
+   const { id, collection } = req.params;
+
+   let model;
+
+   switch (collection) {
+      case 'user':
+         model = await User.findById(id);
+         if (!model) {
+            return res.status(400).json({
+               message: 'No existe el usuario',
+               data: {}
+            });
+         }
+         break;
+
+      case 'product':
+         model = await Product.findById(id);
+         if (!model) {
+            return res.status(400).json({
+               message: 'No existe el producto',
+               data: {}
+            });
+         }
+         break;
+
+
+      default:
+         return res.status(500).json({
+            message: 'Internal server error',
+            data: {}
+         });
+   }
+
+   const finalPath = existsImage('users/' + model.image);
+   console.log(finalPath);
+   return res.sendFile(finalPath);
+
+}
+
+
 export {
    uploadFile,
-   updateImage
+   updateImage,
+   getImage
 }
